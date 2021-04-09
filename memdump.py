@@ -33,11 +33,17 @@ class Memdump:
     def printParsedData(self, raw_data, address):
         print('[**] Dump region: ')
         current = 0
+        
         for offset in range(0, len(raw_data), 8*3):
+            skip = False
             data = [unpack("Q", raw_data[i:i+8].ljust(8, b'\0'))[0] for i in range(offset, offset + (8*3), 8)]
             if data != current:
+                skip = True
                 print(f'{address+offset:016x}: {data[0]:016x} {data[1]:016x} {data[2]:016x}')
             current = data
+        
+        if not skip:
+            print(f'{address+offset:016x}: {data[0]:016x} {data[1]:016x} {data[2]:016x}')
     
     def error(self, message):
         print(f'memdump.py: error: {message}')
