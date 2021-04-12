@@ -1,6 +1,6 @@
 # Memdump
 
-To dump memory region of some process with pid.
+Dump mapped memory regions of some process by pid.
 
 ## Usage
 
