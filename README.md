@@ -61,5 +61,5 @@ $ hd out/raw_data.dump
 ```
 
 ## Requirements
-- Run with `sudo` for accessing unreadable file.
+- Run with `sudo` for access unreadable file.
 - python version 3.x
