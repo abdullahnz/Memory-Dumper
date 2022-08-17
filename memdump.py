@@ -8,7 +8,7 @@ class Memdump:
         self.maps_path = f'/proc/{pid}/maps'
         self.mem_path  = f'/proc/{pid}/mem'
     
-    def readMaps(self):
+    def read_maps(self):
         maps = open(self.maps_path).read()
         maps = maps.splitlines()
 
@@ -23,14 +23,14 @@ class Memdump:
             }
         return result
 
-    def dumpRegion(self, address, length):
+    def dump_region(self, address, length):
         with open(self.mem_path, 'rb') as f:
             f.seek(address)
             data = f.read(length)
             f.close()
         return data
 
-    def printParsedData(self, raw_data, address):
+    def parsed_data_info(self, raw_data, address):
         print('[**] Dump region: ')
         current = 0
         
@@ -44,13 +44,13 @@ class Memdump:
         
         if not skip:
             print(f'{address+offset:016x}: {data[0]:016x} {data[1]:016x} {data[2]:016x}')
-    
+
     def error(self, message):
         print(f'memdump.py: error: {message}')
         exit(1)
 
     def dump(self, outfile='raw_data.dump'):
-        mapping_address = self.readMaps()
+        mapping_address = self.read_maps()
 
         for i in range(len(mapping_address)):
             maps = mapping_address[i]
@@ -59,11 +59,11 @@ class Memdump:
 
         index    = int(input('[**] Select Region: '))
         maps     = mapping_address[index]
-        raw_data = self.dumpRegion(maps['start'], maps['length'])
+        raw_data = self.dump_region(maps['start'], maps['length'])
         
         outfile  = f'out/{outfile}'
         
-        self.printParsedData(raw_data, maps['start'])
+        self.parsed_data_info(raw_data, maps['start'])
         
         if 'out' not in os.listdir('.'):
             os.mkdir('out')
